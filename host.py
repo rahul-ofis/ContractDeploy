@@ -1,21 +1,15 @@
 import streamlit as st
-import os, json
+import os
 from dotenv import load_dotenv
 from mistralai import Mistral
-from neo4j import GraphDatabase
 
 # Load environment variables from .env file
 load_dotenv()
 
 # Get the API key from the environment variable
 api_key = os.getenv("MISTRAL_API_KEY")
-NEO4J_URI = os.getenv('NEO4J_URI', 'bolt://localhost:7687')
-NEO4J_USER = os.getenv('NEO4J_USERNAME', 'neo4j')
-NEO4J_PASSWORD = os.getenv('NEO4J_PASSWORD')
 # Initialize Mistral client
 mistral_client = Mistral(api_key=api_key)
-# Initialize Neo4j driver
-driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 def process_prompt(text):
     """
