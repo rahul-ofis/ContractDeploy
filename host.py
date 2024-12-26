@@ -1,13 +1,13 @@
 import streamlit as st
-#import os
-#from dotenv import load_dotenv
+import os
+from dotenv import load_dotenv
 from mistralai import Mistral
 
 # Load environment variables from .env file
-#load_dotenv()
+load_dotenv()
 
 # Get the API key from the environment variable
-api_key = st.secrets["MISTRAL_API_KEY"]
+api_key = os.getenv("MISTRAL_API_KEY")
 # Initialize Mistral client
 mistral_client = Mistral(api_key=api_key)
 
@@ -22,7 +22,7 @@ def process_prompt(text):
     str: The response from the Mistral agent.
     """
     chat_response = mistral_client.agents.complete(
-        agent_id=st.secrets['AGENT_KEY'],
+        agent_id=os.getenv('AGENT_KEY'),
         messages=[
             {
                 "role": "user",
@@ -34,7 +34,19 @@ def process_prompt(text):
 
 # Streamlit app configuration
 st.set_page_config(layout="wide")
-st.title("📄 Q&A Chatbot for Contract Review")
+
+# Header layout
+col1, col2 = st.columns([1, 4])
+
+with col1:
+    st.image("alphanimble-logo.png", width=150)
+
+with col2:
+    st.title("📄 Q&A Chatbot for Contract Review")
+    st.markdown("Your AI-powered assistant for contract analysis and review")
+
+# Add a separator
+st.markdown("---")
 
 # Chat Section
 st.subheader("Chat with Your Agent")
@@ -72,4 +84,4 @@ if send_button and user_input.strip():
 
 # Footer
 st.markdown("---")
-st.write("© 2024 Your Company Name. All rights reserved.")
+st.write("© 2024 AlphaNimble. All rights reserved.")
