@@ -1,13 +1,13 @@
 import streamlit as st
 import os
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from mistralai import Mistral
 
 # Load environment variables from .env file
-load_dotenv()
+#load_dotenv()
 
 # Get the API key from the environment variable
-api_key = os.getenv("MISTRAL_API_KEY")
+api_key = st.secrets["MISTRAL_API_KEY"]
 # Initialize Mistral client
 mistral_client = Mistral(api_key=api_key)
 
@@ -22,7 +22,7 @@ def process_prompt(text):
     str: The response from the Mistral agent.
     """
     chat_response = mistral_client.agents.complete(
-        agent_id=os.getenv('AGENT_KEY'),
+        agent_id=st.secrets['AGENT_KEY'],
         messages=[
             {
                 "role": "user",
